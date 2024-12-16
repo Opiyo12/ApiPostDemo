@@ -1,13 +1,32 @@
 server:
-  port: 8082 # This sets the application server port, not the database port
+  port: 8082  # This sets the application server port
 
+# Default profile (Local development configuration)
 spring:
+  profiles: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/apidemo
-    username: root
-    password: password
+    url: jdbc:mysql://localhost:3306/apidemo  # Local database connection
+    username: root  # Local database username
+    password: password  # Local database password
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: update  # Automatically update schema in development
+    show-sql: true  # Show SQL queries in the console for debugging
+
+---
+
+# Production profile (Clever Cloud configuration)
+spring:
+  profiles: prod
+  datasource:
+    url: ${MYSQL_ADDON_URI}  # Clever Cloud database URI (uses environment variable)
+    username: ${MYSQL_ADDON_USER}  # Clever Cloud database username
+    password: ${MYSQL_ADDON_PASSWORD}  # Clever Cloud database password
+    driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL JDBC driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # You can set this to 'none' in production if you want no schema changes
+    show-sql: false  # Disable SQL query logging in production for performance
+
+
