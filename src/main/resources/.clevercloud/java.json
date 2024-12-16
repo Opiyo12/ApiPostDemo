@@ -1,0 +1,8 @@
+{
+  "build": {
+    "type": "maven",
+    "maven": {
+      "goal": "package"
+    }
+  }
+}
